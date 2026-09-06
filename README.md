@@ -1,5 +1,5 @@
 # Zero - Minimal Wayland Compositor
-A minimal wayland compositor setup based on labwc.
+A minimal wayland compositor setup
 
 ## Philosophy
 - Simple and custom configuration
