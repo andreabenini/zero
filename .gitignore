@@ -1,0 +1,19 @@
+# User configuration directories
+# Users should keep their configs outside the project, but in case they create them here, ignore common names
+debug/
+profiles/
+
+# Generated files
+error.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
