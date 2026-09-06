@@ -1,0 +1,44 @@
+# Desktop background
+background:
+  type: color
+  value: '#1a1a1a'
+
+
+# Screen settings
+screen:
+  # resolution: '1920x1080'
+  resolution: '1920x1024'
+  # resolution: '1024x768'
+  focus: followmouse        # window, followmouse
+
+
+# Panel/bar configuration
+# 'panels:' is an array, each panel has a name and alignment
+# Remove this section to disable panels
+# Available widgets: menu, windowlist, tray, setup, clock, power
+panels:
+  - name: main
+    align: top              # top, bottom, left, or right
+    widgets:
+      - menu:               # App launcher button
+          icon: ≡           # Opt. Menu icon, default: ""
+          text: Apps        # Opt: Menu text, default: "Apps"
+      - spacer:             # spacer widget, default 100px width
+          width: 30
+      - windowlist:         # Window list (shows ALL windows, no workspace filter)
+          # format: '{icon} {name}'           # Display format: {icon}, {name}, {title}, {app_id}, {state}, {short_state}
+          # icon-size: 16                     # Icon size in pixels
+          # tooltip: true                     # Enable/disable tooltips
+          # all-outputs: false                # Show windows from all outputs or current only
+          # on-click: 'activate'              # Click action: activate, minimize, minimize-raise, maximize, fullscreen, close
+          # on-click-right: 'minimize-raise'  # Right-click action
+      - tray:               # System tray
+      - setup:              # Setup menu button
+          icon: ⚙
+  #       text: Setup
+      - clock:              # Clock with calendar
+      - power:              # Power/exit button
+
+
+startup:
+  - foot
