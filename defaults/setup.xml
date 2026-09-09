@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<openbox_menu>
+  <menu id="root-menu" label="Setup">
+    <!--
+    Example menu item structure:
+    <item label="Label Text">
+      <action name="Execute" command="command-to-run"/>
+    </item>
+    <separator/>
+    -->
+    <!--
+    <item label="Setup">
+      <action name="Execute" command="foot"/>
+    </item>
+    -->
+  </menu>
+</openbox_menu>
