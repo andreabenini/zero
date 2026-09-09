@@ -1,8 +1,8 @@
 # Zero - Minimal Wayland Compositor
 A minimal wayland compositor setup
 
+
 ## Philosophy
-- Simple and custom configuration
 - Minimal by default, complexity added only when needed
-- No forking, pure configuration approach
-- Support for both standalone and nested mode (embedded in another wayland session)
+- wayland pure configuration approach
+- Support for full independent standalone and nested mode (embedded in another wayland session)
