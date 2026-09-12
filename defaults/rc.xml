@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<labwc_config>
+  <keyboard>
+    <!-- Alt+Tab, Alt+Shift+Tab: Move to next/previous window
+         Bound unconditionally because it is self-disabling: nested under GNOME the parent grabs Alt+Tab upstream, so labwc never receives it and this
+         pair sits inert. Standalone there is no parent, so it works. Nested under a compositor that does not grab Alt+Tab, it works there too.
+         Super+Alt+Tab stays valid in every case. -->
+    <keybind key="A-Tab">
+      <action name="NextWindow"/>
+    </keybind>
+    <keybind key="A-S-Tab">
+      <action name="PreviousWindow"/>
+    </keybind>
+
+    <!-- Super+Alt Tab, Super+Alt+Shift Tab: Move to next/previous window
+         This always works, even in nested mode -->
+    <keybind key="W-A-Tab">
+      <action name="NextWindow"/>
+    </keybind>
+    <keybind key="W-A-S-Tab">
+      <action name="PreviousWindow"/>
+    </keybind>
+
+    <!-- Super+Q: Quit compositor -->
+    <keybind key="W-q">
+      <action name="Exit"/>
+    </keybind>
+
+    <!-- Super+Return: Terminal -->
+    <keybind key="W-Return">
+      <action name="Execute" command="foot"/>
+    </keybind>
+
+  </keyboard>
+
+  <!-- Window switcher OSD - the panel shown while cycling with Super+Alt+Tab.
+       Colours and sizes are NOT set here, they live in 'themerc-override' in your profile directory. This block controls structure only.
+           preview  yes|no    Show the selected window's contents while cycling
+           outlines yes|no    Draw an outline around the selected window
+           order    age|focus 'age' is creation order, the same order as the panel's windowlist, so the panel reads as a legend for the
+                              switcher. 'focus' (labwc's default) is recent-focus order, which reshuffles on every switch
+  -->
+  <windowSwitcher preview="yes" outlines="yes" order="age">
+
+    <!--
+           show   yes|no                 Draw the OSD at all
+           style  classic|thumbnail      'classic' is a vertical list, 'thumbnail' a grid of live previews.
+                                         Thumbnail items are 300x250 by default, so only about three fit across a 1024px screen
+           output all|focused|cursor     Which monitor(s) show the OSD
+    -->
+    <osd show="yes" style="thumbnail" output="focused"/>
+
+    <!-- Columns of the 'classic' list, drawn left to right. 'width' is a percentage of the switcher's
+         own width and the % sign is required; the values below should add up to 100%.
+         content can be any of:
+             icon                Application icon
+             title               Window title
+             identifier          app_id (Wayland) or WM_CLASS (XWayland)
+             trimmed_identifier  Same, with a leading 'org.' node removed
+             desktop_entry_name  Name from the .desktop file, falls back to trimmed_identifier
+             state               M/m/F for maximized/minimized/fullscreen
+             type                'xdg-shell' or 'xwayland'
+             type_short          Same, as 'W' or 'X'
+             workspace           Workspace name
+             output              Output id
+             custom              printf-style format, e.g. format="%n - %T".
+                                 Only one custom field is allowed, and it wants a monospace OSD font to stay aligned
+    -->
+    <fields>
+      <field content="icon"  width="10%"/>
+      <field content="state" width="10%"/>
+      <field content="title" width="80%"/>
+    </fields>
+
+  </windowSwitcher>
+
+  <mouse>
+    <default/>
+    <context name="Root">
+      <!-- Unfocus on desktop background left-click (closes fuzzel when clicked outside) -->
+      <mousebind button="Left" action="Press">
+        <action name="Unfocus"/>
+      </mousebind>
+
+      <!-- Disable client-list menu on desktop background middle-click -->
+      <mousebind button="Middle" action="Press" />
+    </context>
+  </mouse>
+
+  <theme>
+    <name>Clearlooks</name>
+  </theme>
+</labwc_config>
