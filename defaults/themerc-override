@@ -1,0 +1,70 @@
+# labwc theme overrides
+#
+# Overrides individual keys of the theme named in rc.xml (<theme><name>),
+# without replacing the theme itself. Anything left out keeps the theme's
+# own value, so this file only needs to hold what you want to change.
+#
+# Copied from defaults/ on first launch and never touched again - not
+# rewritten, not re-read, not validated by configurator.py. Edit it freely,
+# comments included; unlike rc.xml, nothing here is stripped on launch.
+# Delete it to fall back entirely to the theme.
+#
+# Colours take '#rrggbb', '#rrggbbaa' (inline hex alpha), '#rgb', or an X11
+# colour name. Sizes are pixels unless a '%' suffix is given, which is a
+# percentage of the monitor width.
+#
+# Note these keys win over <theme><name>. If you switch Clearlooks for a
+# light theme, the dark OSD colours below will stay dark until you edit or
+# remove them.
+#
+# Only the on-screen display is set here, but any theme key is fair game -
+# titlebars, borders, menus. See labwc-theme(5) for the full list.
+
+
+# --- On-screen display, shared by every OSD ------------------------------
+# Used by the window switcher (Super+Alt+Tab) and the move/resize indicator.
+# These match the fuzzel palette in apps-menu.ini, so the switcher and the
+# Apps menu read as one system.
+
+# Background. The f0 alpha gives it a slight transparency
+osd.bg.color:            #1a1a1af0
+# Border colour and thickness
+osd.border.color:        #7b7876
+osd.border.width:        1
+# Text colour
+osd.label.text.color:    #fffffe
+
+
+# --- Window switcher, 'classic' style ------------------------------------
+# Applies when rc.xml has <osd style="classic"/>, which is the default.
+
+# Overall width. labwc's own default is 600px, which is most of a 1024px
+# screen, so a percentage holds up better if you change screen.resolution
+# in config.yaml
+osd.window-switcher.style-classic.width:                    60%
+# Space between the switcher's border and its items
+osd.window-switcher.style-classic.padding:                  4
+# Space inside each row, horizontal and vertical
+osd.window-switcher.style-classic.item.padding.x:           10
+osd.window-switcher.style-classic.item.padding.y:           1
+# The selected row: border thickness, border colour, background colour
+osd.window-switcher.style-classic.item.active.border.width: 2
+osd.window-switcher.style-classic.item.active.border.color: #6f6f6f
+osd.window-switcher.style-classic.item.active.bg.color:     #33333c
+# Icon size. Without this it follows the OnScreenDisplay font size
+osd.window-switcher.style-classic.item.icon.size:           20
+
+
+# --- Window switcher, 'thumbnail' style ----------------------------------
+# Only used if you set <osd style="thumbnail"/> in rc.xml. Left at labwc's
+# defaults; uncomment to tune.
+#
+# osd.window-switcher.style-thumbnail.width.max:                80%
+osd.window-switcher.style-thumbnail.padding:                  5
+# osd.window-switcher.style-thumbnail.item.width:               300
+# osd.window-switcher.style-thumbnail.item.height:              250
+osd.window-switcher.style-thumbnail.item.padding:             15
+osd.window-switcher.style-thumbnail.item.active.border.width: 2
+osd.window-switcher.style-thumbnail.item.active.border.color: #5ef563
+osd.window-switcher.style-thumbnail.item.active.bg.color:     #74747b
+# osd.window-switcher.style-thumbnail.item.icon.size:           60
