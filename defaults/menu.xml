@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<openbox_menu>
+  <menu id="root-menu" label="Menu">
+    <item label="Terminal (terminator)">
+      <action name="Execute" command="terminator"/>
+    </item>
+    <item label="Terminal (foot)">
+      <action name="Execute" command="foot"/>
+    </item>
+    <!--
+    <separator/>
+    <item label="Exit">
+      <action name="Exit"/>
+    </item>
+    -->
+  </menu>
+</openbox_menu>
