@@ -1,0 +1,108 @@
+* {
+    font-family: "Sans";
+    font-size: 13px;
+}
+
+window#waybar {
+    background-color: rgba(26, 26, 26, 0.95);
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#custom-menu,
+#custom-setup,
+#tray,
+#clock {
+    padding: 0px;
+    margin: 0 2px;
+}
+#clock {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#custom-menu {
+    padding-left: 10px;
+    padding-right: 13px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#custom-menu:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+}
+
+#custom-setup {
+    font-weight: bold;
+    font-size: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#custom-setup:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+}
+
+#custom-power {
+    color: #ff6b6b;
+    font-size: 20px;
+    padding: 0 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#custom-power:hover {
+    background-color: rgba(255, 107, 107, 0.2);
+    border-radius: 3px;
+}
+
+#taskbar {
+    /* Expand to fill available space */
+    padding: 0 10px;
+}
+
+/* Window list button - normal/inactive state */
+#taskbar button {
+    padding: 0 8px;
+    margin: 0 2px;
+    background-color: transparent;  /* Background of inactive window button */
+    color: #ffffff;               /* Text color of inactive window */
+    border: none;
+    border-radius: 3px;
+    min-width: 100px;               /* Minimum width per button */
+}
+
+/* Window list button - hover on inactive window */
+#taskbar button:hover {
+    background-color: rgba(255, 255, 255, 0.15);   /* Background on hover (inactive) */
+    color: #000000;                                /* Text color on hover (inactive) */
+}
+
+/* Window list button - active/focused window */
+#taskbar button.active {
+    background-color: rgba(255, 255, 255, 0.2);   /* Background of active window */
+    color: #ffffff;                               /* Text color of active window */
+    font-weight: bold;
+}
+
+/* Window list button - hover on active window */
+#taskbar button.active:hover {
+    background-color: rgba(255, 255, 255, 0.3);   /* Background on hover (active) */
+    color: #FF0000;                                /* Text color on hover (active) */
+}
+
+/* Window list button - minimized window */
+#taskbar button.minimized {
+    background-color: transparent;    /* Background of minimized window */
+    color: #888888;                 /* Text color of minimized window */
+    opacity: 0.5;
+}
+
+/* Window list button - hover on minimized window */
+#taskbar button.minimized:hover {
+    background-color: rgba(255, 255, 255, 0.1);   /* Background on hover (minimized) */
+    color: #aaaaaa;                                /* Text color on hover (minimized) */
+    opacity: 0.7;
+}
