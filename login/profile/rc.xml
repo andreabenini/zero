@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!-- Greeter configuration
+  No keybindings at all, and that is the point of the file rather than an
+  omission: defaults/rc.xml binds W-Return to foot, which would hand a shell to
+  anyone standing at the keyboard. It is why stock defaults/ cannot seed this
+  directory.
+-->
+<labwc_config>
+
+  <keyboard>
+  </keyboard>
+
+  <mouse>
+    <default/>
+    <context name="Root">
+      <!-- Left-click the background to dismiss an open fuzzel -->
+      <mousebind button="Left" action="Press">
+        <action name="Unfocus"/>
+      </mousebind>
+
+      <!-- No root menu and no client-list menu on an unauthenticated screen -->
+      <mousebind button="Right" action="Press"/>
+      <mousebind button="Middle" action="Press"/>
+    </context>
+  </mouse>
+
+  <theme>
+    <name>Clearlooks</name>
+  </theme>
+
+</labwc_config>
