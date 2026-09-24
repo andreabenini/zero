@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!--
+  Empty root menu, on purpose. defaults/menu.xml lists terminals; a login screen
+  offers nothing. rc.xml also unbinds the right-click that would open this.
+-->
+<openbox_menu>
+  <menu id="root-menu" label="">
+  </menu>
+</openbox_menu>
