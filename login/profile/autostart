@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# Greeter autostart. Hand-written and copied verbatim by install.sh - unlike a
+# Zero profile's autostart, nothing generates this and configurator.py never
+# runs against this directory.
+#
+# `3>&- 4>&-` on everything but login.sh is load-bearing. A pipe reports EOF
+# when its last write end closes, so a waybar still holding fd 3 would leave
+# zero-login blocked in read() for as long as waybar lives - which is forever.
+
+swaybg -c '#1a1a1a' 3>&- 4>&- &
+
+# waybar is GTK, and Gtk::Application will not register without a session bus.
+# The greeter's logind session is class 'user-light' - no user service manager,
+# so no dbus.socket and no bus in $XDG_RUNTIME_DIR - and GIO's fallback is
+# `dbus-launch --autolaunch`, which needs X11 and fails. Without this the panel
+# exits during startup having mapped nothing, which is not obvious on screen:
+# swaybg still paints and fuzzel still prompts, because neither is GTK.
+#
+# A private bus for waybar alone, gone when it goes. The alternative is
+# XDG_SESSION_CLASS=greeter, which asks logind to run a whole service manager
+# for an account with no home - see docs/LOGIN.md.
+#
+# The three variables keep it to a bus. GTK will otherwise activate
+# xdg-desktop-portal, its gtk backend, gvfsd and the at-spi registry on it, all
+# running as `zero` in front of someone who has not authenticated, for a widget
+# that runs `systemctl poweroff`.
+GTK_A11Y=none GIO_USE_VFS=local GTK_USE_PORTAL=0 \
+dbus-run-session -- waybar -c /etc/zero/login/waybar/config-login \
+                           -s /etc/zero/login/waybar/style-login.css 3>&- 4>&- &
+
+# The only holder of fds 3 and 4, so its death is an immediate EOF for
+# zero-login. `labwc -e` follows unconditionally: whether login.sh finished a
+# login or fell over, the compositor goes with it instead of leaving a bare
+# background on screen.
+/etc/zero/login/login.sh
+labwc -e
