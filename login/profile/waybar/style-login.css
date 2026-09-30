@@ -1,0 +1,74 @@
+/*
+ * Greeter panel styling - both panels, top and bottom, out of the one waybar
+ * process config-login describes. This is defaults/waybar/style.css cut down to
+ * the parts that apply: not generated, and no per-panel name to substitute.
+ *
+ * Each bar's "name" in config-login arrives here as a CSS class, so
+ * window#waybar is the pair of them and window#waybar.top / window#waybar.hint
+ * are one each. Anything shared belongs in the bare rule and is then true of
+ * both by default rather than by being written out twice - which is the point,
+ * because a panel at the top and a panel at the bottom of the same screen
+ * drifting apart in colour is exactly the sort of thing nobody sees.
+ */
+
+* {
+    font-family: "Sans";
+    font-size: 13px;
+}
+
+window#waybar {
+    background-color: rgba(26, 26, 26, 0.95);
+    color: #ffffff;
+}
+
+/* The hairline that separates a panel from the screen faces inward, so it is
+ * the one thing the two bars cannot share: the top panel is bounded below and
+ * the bottom panel above. */
+window#waybar.top {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+window#waybar.hint {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/*
+ * The panel's centre label. Fixed text, set in config-login as a custom module
+ * with no exec, so everything about how it looks is here and nothing about it
+ * is here twice - change the wording in config-login, change the appearance
+ * below. Deliberately plain to start with: the greeter's colour is spent on the
+ * ⏻ button, which is the only thing on this panel that does anything.
+ */
+#custom-label {
+    color: #d6d5d4;
+    font-size: 18px;
+    padding: 0 15px;
+}
+
+#custom-power {
+    color: #ff6b6b;
+    font-size: 20px;
+    padding: 0 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#custom-power:hover {
+    background-color: rgba(255, 107, 107, 0.2);
+    border-radius: 3px;
+}
+
+/*
+ * The bottom panel's hint. Says what the prompt in the middle of the screen
+ * expects, and changes with it - the wording is in look.sh, the mechanism in
+ * login.sh, and nothing about either is decided here.
+ *
+ * Dimmer than the label above it on purpose. It is an instruction that is
+ * always on screen and never needs acting on directly, so it should be
+ * readable when looked for and quiet when not.
+ */
+#custom-hint {
+    color: #9a9996;
+    font-size: 42px;
+    padding: 0 15px;
+}
