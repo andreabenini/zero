@@ -1,0 +1,89 @@
+// The greeter's panels. A JSON array, so this is two bars out of one waybar
+// process rather than two processes - see MULTI OUTPUT CONFIGURATION in
+// waybar(5). autostart launches waybar once and names this file; adding a bar
+// here does not change how it is started.
+//
+// JSONC, which is why these comments parse. waybar(5) says so and ships its own
+// default config commented; nothing else in this project reads this file, and
+// install.sh copies it verbatim.
+//
+// Each bar sets "name", which waybar adds as a CSS class - that is the whole
+// mechanism for styling one bar differently from the other, and the selectors
+// are window#waybar.top and window#waybar.hint in style-login.css.
+//
+// Layout lives here, appearance in style-login.css, wording in look.sh. Moving
+// the hint to the left, changing a bar's height, swapping which panel a module
+// sits on: all of it is this file, and none of it is login.sh.
+[
+  {
+    "name": "top",
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "modules-left": [],
+    "modules-center": [
+      "custom/label"
+    ],
+    "modules-right": [
+      "custom/power"
+    ],
+    "custom/label": {
+      "format": "System Login Screen",
+      "tooltip": false
+    },
+    "custom/power": {
+      "format": "⏻",
+      "on-click": "/etc/zero/login/power.sh",
+      "tooltip": false
+    }
+  },
+  {
+    // The hint bar. One module, whose text is whichever line login.sh last
+    // wrote to $XDG_RUNTIME_DIR/zero-hint.
+    //
+    // A custom module cannot be handed new text; it re-runs its exec and
+    // displays what comes back. So the state is a file and the module reads it
+    // once a second. login.sh writes the line and does nothing else.
+    //
+    // There is no "signal" here on purpose, and it is worth knowing why before
+    // adding one back. The documented way to do this is a "signal": n on the
+    // module and a pkill -RTMIN+n in the script, which updates the bar the
+    // instant the prompt changes instead of up to a second later. That was
+    // written and it deleted both panels: a realtime signal kills a process
+    // that has not yet installed a handler for it, waybar installs its handlers
+    // during startup, and autostart reaches login.sh long before waybar is
+    // ready. The first hint killed the panel every run, silently, before waybar
+    // had even parsed this file. See the comment over hint() in login.sh.
+    //
+    // "interval": 1 is therefore the mechanism and not a backstop. A cat a
+    // second, for as long as the greeter is on screen, in exchange for a panel
+    // that cannot be shot during startup.
+    //
+    // "format": "{}" is where the exec's output lands. Wrap it here for a
+    // prefix or pango markup - "⌨ {}", "<i>{}</i>" - without touching the
+    // wording in look.sh or the mechanism in login.sh.
+    // 90, three times the top panel's 30. The two bars are deliberately not
+    // the same size: the top one is a strip with a button on it, this one is
+    // the greeter telling you what to do, and at 30 it was a caption nobody
+    // would read. Raising it here without raising #custom-hint's font-size in
+    // style-login.css just buys empty band - the pair move together.
+    //
+    // It is an exclusive zone, so the centred fuzzel is pushed up by half of
+    // whatever this is: at 90 the prompt sits ~45px above where it would.
+    "name": "hint",
+    "layer": "top",
+    "position": "bottom",
+    "height": 90,
+    "modules-left": [],
+    "modules-center": [
+      "custom/hint"
+    ],
+    "modules-right": [],
+    "custom/hint": {
+      "format": "{}",
+      "exec": "cat \"$XDG_RUNTIME_DIR/zero-hint\" 2>/dev/null",
+      "interval": 1,
+      "tooltip": false
+    }
+  }
+]
