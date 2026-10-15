@@ -1,0 +1,37 @@
+# Zero login manager - a self-contained /etc/pam.d/zero-login.
+#
+# DOCUMENTATION ONLY. install.sh never writes this file. It is here for a
+# distribution whose stack it cannot identify, where `--pam-include <name>`
+# has nothing to point at.
+#
+# The installed file normally includes the distribution's own stack instead -
+# system-login on Arch and Gentoo, common-* on Debian, Ubuntu and openSUSE,
+# system-auth on Fedora and RHEL - so that pam_faillock and any local hardening
+# stay maintained by the distribution. Restating the stack, as below, opts out
+# of that: nothing here tracks a change your distribution makes to its own
+# defaults, and any site policy configured there is simply absent.
+#
+# Prefer the include. Reach for this only when there is nothing to include from,
+# copy it to /etc/pam.d/zero-login, and compare it against the file your
+# distribution's own login(1) or display manager uses before trusting it.
+#
+# pam_faillock is what makes uncapped retries safe: zero-login does not count
+# attempts, by design, because this is the layer that does it correctly.
+
+auth      required                    pam_faillock.so  preauth
+auth      [success=1 default=bad]     pam_unix.so
+auth      [default=die]               pam_faillock.so  authfail
+auth      required                    pam_faillock.so  authsucc
+
+account   required                    pam_faillock.so
+account   required                    pam_unix.so
+
+password  required                    pam_unix.so      shadow
+
+session   required                    pam_limits.so
+session   required                    pam_unix.so
+
+# The one line that cannot be left out. Without it logind creates no session,
+# a session is what carries a seat, and without a seat libseat hands out no
+# devices - so labwc could not open the GPU and nothing would be drawn.
+-session  optional                    pam_systemd.so
