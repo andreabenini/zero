@@ -1,0 +1,17 @@
+# The greeter account, as a systemd-sysusers fragment.
+#
+# The greeter draws with labwc, which needs a logind session of its own before
+# anyone has authenticated. This account provides it: no password, no
+# supplementary groups, no home.
+#
+# sysusers rather than a useradd line in install.sh because one file is correct
+# on Arch, Debian, Fedora and SUSE alike, where the scriptlets are not. It also
+# settles the one detail that actually differs between them: the shell field is
+# left empty, so systemd fills in whatever nologin path the distribution uses -
+# /usr/bin/nologin on Arch, /usr/sbin/nologin on Debian and Fedora - instead of
+# install.sh guessing. profile/login.sh matches on */nologin, so either answer
+# keeps `zero` off the greeter's own user list with no special case.
+#
+# The UID is allocated below UID_MIN, which is the other half of that rule.
+
+u	zero	-	"Zero login greeter"	/nonexistent	-
