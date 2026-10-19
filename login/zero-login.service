@@ -1,0 +1,55 @@
+[Unit]
+Description=Zero Login Manager
+Documentation=file:/opt/zero/docs/LOGIN.md
+
+# /run/nologin blocks logins until this point.
+After=systemd-user-sessions.service
+
+# The getty owns tty1 until it stops. Conflicts= on its own leaves the two
+# racing for the VT, so order against it as well.
+Conflicts=getty@tty1.service
+After=getty@tty1.service
+
+# Inert on a machine with no plymouth.
+Conflicts=plymouth-quit.service
+After=plymouth-quit.service
+
+[Service]
+Type=simple
+ExecStart=/opt/zero/login/zero-login
+
+# zero-login sets PAM_TTY to tty1 and pam_systemd reads the seat and VT out of
+# it. This is what actually gives the process the terminal it names, and what
+# TTYReset and friends need to have something to reset.
+TTYPath=/dev/tty1
+TTYReset=yes
+TTYVHangup=yes
+TTYVTDisallocate=yes
+StandardInput=tty-force
+
+# Not the VT: anything written to stdout would be painted over the greeter.
+StandardOutput=journal
+StandardError=journal
+
+# A session ending is a normal exit. systemd starts a fresh greeter instead of
+# this process looping back to one, so no state crosses a login and a greeter
+# that cannot start shows up as a unit that visibly fails.
+Restart=always
+RestartSec=1
+
+# No KillMode= on purpose, and no KillMode= would help either. pam_open_session()
+# moves the caller into session-N.scope, so the greeter and the user's session
+# both live outside this unit's cgroup and the sweep on stop reaches neither.
+# zero-login handles SIGTERM and passes it down itself; see "termination" in
+# zero-login.c. Setting 'mixed' here, the way gdm does, would only stop the
+# default from reaching the one process that is still in the cgroup.
+
+# Long enough for two compositors to exit in sequence, short enough that a
+# wedged one does not hold a stop for the default 90 seconds. Past it systemd
+# sends SIGKILL, which reaches only this process - PR_SET_PDEATHSIG on the
+# children is what takes the rest of the tree down from there.
+TimeoutStopSec=20s
+
+[Install]
+Alias=display-manager.service
+WantedBy=graphical.target
