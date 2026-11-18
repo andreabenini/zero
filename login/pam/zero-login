@@ -1,0 +1,21 @@
+# Zero login manager, real authentication.
+#
+# The distribution's own stack is included rather than restated, so pam_faillock
+# and any local hardening stay maintained by the distribution and not by us.
+#
+# The include name is the only thing that varies between distributions:
+#
+#   system-login    Arch, Gentoo               (as written below)
+#   common-<type>   Debian, Ubuntu, openSUSE   common-auth, common-account,
+#                                              common-password, common-session
+#   system-auth     Fedora, RHEL
+#
+# install.sh probes /etc/pam.d/ for these and rewrites the four lines to match,
+# so an unlisted derivative matches its parent. `--pam-include <name>` overrides
+# the probe. As written the file is already correct on Arch and Gentoo, which is
+# what makes a hand-install there a straight copy.
+
+auth      include  system-login
+account   include  system-login
+password  include  system-login
+session   include  system-login
