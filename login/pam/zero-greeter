@@ -1,0 +1,21 @@
+# Zero login manager - the greeter's own session.
+#
+# This authenticates nobody. pam_systemd is the entire point of the file: it is
+# what registers the logind session that gets the greeter a seat, and without a
+# seat libseat hands out no devices and the greeter cannot draw. The rest is the
+# smallest stack that lets pam_systemd run.
+#
+# Identical on every distribution - nothing here is distro-specific, so
+# install.sh copies it verbatim.
+
+# Refuse to run as anyone but the greeter account.
+auth      required  pam_succeed_if.so  quiet_success user = zero
+auth      required  pam_permit.so
+
+account   required  pam_permit.so
+
+# The account has no password and nothing may set one.
+password  required  pam_deny.so
+
+session   required  pam_permit.so
+-session  optional  pam_systemd.so
